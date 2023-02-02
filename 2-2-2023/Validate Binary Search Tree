@@ -1,0 +1,14 @@
+class Solution {
+    public boolean isvalid(long min,TreeNode root,long max){
+        if(root==null){
+            return true;
+        }
+        if(root.val<=min || root.val>=max){
+            return false;
+        }
+        return isvalid(min,root.left,root.val) && isvalid(root.val,root.right,max);
+    }
+    public boolean isValidBST(TreeNode root){
+        return isvalid(Long.MIN_VALUE,root,Long.MAX_VALUE);
+    }
+}
