@@ -1,0 +1,18 @@
+class Solution {
+    public boolean findTarget(TreeNode root, int k) {
+        HashSet<Integer> set = new HashSet<>();
+        return target(root,set,k);
+    }
+    boolean target(TreeNode curr,HashSet<Integer> set,int k){
+        if(curr==null){
+            return false;
+        }
+        if(set.contains(k-curr.val)){
+            return true;
+        }
+        set.add(curr.val);
+        boolean left=target(curr.left,set,k);
+        boolean right=target(curr.right,set,k);
+        return left || right;
+    }
+}
