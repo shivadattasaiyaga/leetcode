@@ -1,0 +1,45 @@
+class Solution {
+    int drow [] = new int[]{-1,0,1,0};
+    int dcol [] = new int[]{0,1,0,-1};
+    public int orangesRotting(int[][] grid) {
+        int min = 0;
+        Queue<Pair> queue = new LinkedList<>();
+        int m = grid.length;
+        int n = grid[0].length;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==2){
+                    queue.add(new Pair(i,j,0));
+                }
+            }
+        }
+        while(!queue.isEmpty()){
+            Pair pair = queue.poll();
+            min = Math.max(min,pair.min);
+            for(int i=0;i<4;i++){
+                int row = pair.row + drow[i];
+                int col = pair.col + dcol[i];
+                if(row>=0 && row<m && col>=0 && col<n && grid[row][col]==1 && grid[row][col]!=2){
+                    grid[row][col]=2;
+                    queue.add(new Pair(row,col,min+1));
+                }
+            }
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1 && grid[i][j]!=2) return -1;
+            }
+        }
+        return min;
+    }
+}
+class Pair{
+    int row;
+    int col;
+    int min;
+    Pair(int row,int col,int min){
+        this.row = row;
+        this.col = col;
+        this.min = min;
+    }
+}
