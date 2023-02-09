@@ -1,0 +1,41 @@
+class Pair{
+    int first;
+    int second;
+    Pair(int first,int second){
+        this.first = first;
+        this.second = second;
+    }
+}
+class Solution {
+    public void bfs(int i, int j, int row, int col, char[][] grid){
+        Queue<Pair> que = new LinkedList<>();
+        que.add(new Pair(i,j));
+        while(!que.isEmpty()){
+            Pair  pair = que.poll();
+            for(int k=0;k<4;k++){
+                int first = pair.first+drow[k];
+                int second = pair.second+dcol[k];
+                if(first>=0 && first<row && second>=0 && second<col && grid[first][second]=='1'){
+                    grid[first][second] = '0';
+                    que.offer(new Pair(first,second));
+                }
+            }
+        }
+    }
+    int drow [] = new int[]{-1,0,1,0};
+    int dcol [] = new int[]{0,1,0,-1};
+    public int numIslands(char[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        int count = 0;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]=='1'){
+                    count++;
+                    bfs(i,j,row,col,grid);
+                }
+            }
+        }
+        return count;
+    }
+}
