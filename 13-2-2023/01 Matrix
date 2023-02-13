@@ -1,0 +1,45 @@
+class Node{
+    int first;
+    int second;
+    int third;
+    Node(int first,int second,int third){
+        this.first=first;
+        this.second=second;
+        this.third=third;
+    }
+}
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+        int m=mat.length;
+        int n=mat[0].length;
+        int visited[][]=new int[m][n];
+        int distance[][]=new int[m][n];
+        Queue<Node> queue=new LinkedList<>();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(mat[i][j]==0){
+                    queue.add(new Node(i,j,0));
+                    visited[i][j]=1;
+                }
+                else{
+                    visited[i][j]=0;
+                }
+            }
+        }
+        int delrow[]={-1,0,1,0};
+        int delcol[]={0,1,0,-1};
+        while(!queue.isEmpty()){
+            Node node=queue.poll();
+            distance[node.first][node.second]=node.third;
+            for(int i=0;i<4;i++){
+                int row=node.first+delrow[i];
+                int col=node.second+delcol[i];
+                if(row>=0 && row<m && col>=0 && col<n && visited[row][col]==0){
+                    visited[row][col]=1;
+                    queue.add(new Node(row,col,node.third+1));
+                }
+            }
+        }
+        return distance;
+    }
+}
